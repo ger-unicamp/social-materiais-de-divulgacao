@@ -1,31 +1,25 @@
-# 🤖 O Robô Seguidor de Linha Inteligente!
+# 🏎️ Seguidor de Linha Colorida
 
-Esse é o manual do nosso carrinho robô! Ele foi feito para brincar e aprender. O robô tem **dois olhos especiais** (sensores de cor) que ficam olhando para o chão enquanto ele anda. 
+Este repositório contém a lógica de um robô seguidor de linha que faz mais do que só seguir uma trilha: ele ajusta a própria velocidade dinamicamente de acordo com marcadores de cor no chão.
 
-Ele sabe fazer duas coisas super legais: **seguir um caminho** e **mudar a velocidade quando vê cores diferentes!**
+## 📂 O Código
+Toda a lógica em C++ está no arquivo `seguidor_de_cor.cpp`, localizado nesta mesma pasta. É só abrir na IDE do Arduino, compilar e subir para o seu ESP32.
 
-## 📂 Onde está o cérebro dele?
-Toda a mágica e as instruções do robô estão no arquivo de código chamado `seguidor_de_cor.cpp`, que está guardado bem aqui na mesma pasta deste arquivo!
+## 🛣️ Como funciona a direção?
+O robô usa sensores para rastrear uma linha preta em um fundo claro. A lógica é simples e direta:
+* **Sensor esquerdo na linha:** O robô corrige a rota virando para a esquerda.
+* **Sensor direito na linha:** O robô corrige virando para a direita.
+* **Nenhum na linha:** Ele segue reto até reencontrar o trajeto.
 
-## 🛣️ Como o Robô sabe para onde ir?
+## 🚥 Checkpoints de Cor (Velocidade)
+A grande sacada desse projeto é o uso dos sensores RGB. Quando o robô passa por cores específicas na pista, ele altera o PWM dos motores na mesma hora:
 
-O robô adora o escuro! Ele usa os olhinhos para procurar uma **linha preta** no chão. 
-* Se ele vê a linha com o olho esquerdo, ele vira para a esquerda.
-* Se vê com o olho direito, vira para a direita.
-* Se os dois olhos estão vendo branco, ele vai para frente para procurar a linha.
+* 🔴 **Vermelho (30% da velocidade):** Modo reduzido. Ideal colocar antes de curvas muito fechadas para o robô não "passar direto" e perder a linha.
+* 🟡 **Amarelo (60% da velocidade):** Velocidade de cruzeiro. A rotação padrão para manter a estabilidade no trajeto geral.
+* 🔵 **Azul (100% da velocidade):** Boost máximo! Libera 100% da potência dos motores. Perfeito para colocar no início de grandes retas e baixar o tempo da volta.
 
-## 🚥 O Poder das Cores Mágicas
-
-Além de seguir a linha, os olhos do robô conseguem reconhecer três cores no chão. Cada cor funciona como uma placa de trânsito que muda a velocidade dele:
-
-* 🔴 **Vermelho (Modo Tartaruga):** O robô entende que precisa ir bem devagar. Ele reduz a força e anda a **30% da velocidade**.
-* 🟡 **Amarelo (Modo Passeio):** O robô vai um pouco mais rápido, mas ainda com cuidado. Ele anda a **60% da velocidade**.
-* 🔵 **Azul (Modo Foguete):** É a hora de acelerar! O robô liga os motores na potência máxima e anda a **100% da velocidade**.
-
-## 🎮 Como brincar com ele?
-
-1. **Faça a pista:** Peça ajuda para colar uma fita isolante preta no chão bem clarinho. Você pode fazer curvas, retas e zigue-zagues!
-2. **Crie os desafios de velocidade:** Recorte pedaços de papel colorido (Vermelho, Amarelo e Azul) e cole no chão, bem no meio ou do lado da pista de fita preta.
-3. **Aperte o Play:** Ligue o robô, coloque ele em cima da linha preta antes do primeiro papel colorido e solte!
-
-Observe como o robô é esperto: ele vai seguir o caminho sozinho e, toda vez que passar por cima de um papelzinho colorido, você vai ouvir e ver os motores mudando de velocidade!
+## 🛠️ Como montar e testar
+1. **A Pista:** Use fita isolante preta no chão (de preferência um piso claro ou branco). Faça um circuito com retas e curvas variadas.
+2. **As Tags:** Recorte pedaços de papel, cartolina ou EVA colorido (Vermelho, Amarelo e Azul) e posicione pelo trajeto.
+3. **Ajuste Fino:** Dependendo da iluminação da sua sala, pode ser necessário abrir o `seguidor_de_cor.cpp` e ajustar levemente os multiplicadores na função `atualizarVelocidade` para ele ler as cores com perfeição.
+4. **Bora testar:** Ligue a alimentação, coloque o chassi na pista e veja o sistema funcionar na prática.
